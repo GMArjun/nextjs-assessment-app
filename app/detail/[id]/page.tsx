@@ -108,7 +108,7 @@ const Comments = ({ comments, children }: { comments: Comments; children?: React
               {comments.userVerified && (
                 <img src="/icons/tick.png" v-if="commentData.userVerified" className="h-4 w-4" alt="profile-icon" />
               )}
-              <span className="text-xs shrink-0 text-xxs text-color-light">{comments.time}</span>
+              <span className="text-xs shrink-0 font-medium text-gray-400">{comments.time}</span>
             </p>
           </div>
           <button className="outline-none shrink-0 -me-1 ">

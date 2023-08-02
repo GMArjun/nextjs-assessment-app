@@ -12,7 +12,7 @@ const CardLoader = () => {
             <Skeleton className="h-full" />
           </div>
           <div className="py-2 px-3">
-            <Skeleton count={3} />
+            <Skeleton count={2} />
           </div>
         </div>
       ))}

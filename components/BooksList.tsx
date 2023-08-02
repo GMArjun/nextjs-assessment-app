@@ -7,32 +7,31 @@ import { formatAmountWithCommas } from '@/utils/amountComma';
 import CardLoader from '@/components/cardLoader';
 import { useRecoilState } from 'recoil';
 import { bookState, pageState, hasMoreState } from '@/store/atoms/Books';
-import { BookListData, BookData } from '@/utils/interface';
+import { BookData } from '@/utils/interface';
+import { useQuery } from '@tanstack/react-query';
 
-const BooksList = ({ booklist }: { booklist: BookListData }) => {
+const BooksList = () => {
   const [books, setBooks] = useRecoilState<BookData[]>(bookState);
   const [page, setPage] = useRecoilState(pageState);
   const [hasMore, setHasMore] = useRecoilState(hasMoreState);
 
-  const fetchData = async (pageNumber: number) => {
-    try {
-      const response = await axios.get(`http://15.165.74.54:3000/?page=${pageNumber}`);
-      const result = response.data;
-      setBooks((prevData) => [...prevData, ...result.data]);
-      setHasMore(result.hasNext);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  const { data } = useQuery({
+    queryKey: ['booksList', page],
+    queryFn: async () => {
+      const response = await axios.get(`http://15.165.74.54:3000/?page=${page}`);
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    getNextPageParam: (lastPage) => lastPage.hasNext && lastPage.nextPage,
+  });
 
   useEffect(() => {
-    if (booklist && page == 1) {
-      setBooks(booklist.data);
-      setHasMore(booklist.hasNext);
-    } else {
-      fetchData(page);
+    if (data) {
+      const list = data.data;
+      setBooks((prevData) => [...prevData, ...list]);
+      setHasMore(data.hasNext);
     }
-  }, [page]);
+  }, [data, setBooks, setHasMore]);
 
   const fetchMoreData = () => {
     if (hasMore) {
