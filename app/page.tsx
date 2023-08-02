@@ -15,7 +15,7 @@ const Page = async () => {
                 </nav>
             </header>
             <main>
-                <BooksList booklist={result}/>
+                <BooksList booklist={result} />
             </main>
         </div>
     );
