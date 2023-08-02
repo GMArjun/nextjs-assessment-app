@@ -8,7 +8,7 @@ const CardLoader = () => {
         <div className="grid grid-cols-2 min-[500px]:grid-cols-3 gap-1">
             {
                 numbers.map((number) => (
-                    <div className='card'>
+                    <div className='card' key={number}>
                         <div className="aspect-square overflow-hidden">
                             <Skeleton className='h-full' />
                         </div>
