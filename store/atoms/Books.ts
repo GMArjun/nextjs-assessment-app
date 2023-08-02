@@ -1,17 +1,17 @@
-import { atom } from "recoil";
-import { BookData } from "@/utils/interface";
+import { atom } from 'recoil';
+import { BookData } from '@/utils/interface';
 
 export const bookState = atom<BookData[]>({
-  key: "bookState",
+  key: 'bookState',
   default: [],
 });
 
 export const pageState = atom({
-  key: "pageState",
+  key: 'pageState',
   default: 1,
 });
 
 export const hasMoreState = atom({
-  key: "hasMoreState",
+  key: 'hasMoreState',
   default: true,
 });
