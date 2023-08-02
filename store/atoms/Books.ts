@@ -1,6 +1,7 @@
 import { atom } from "recoil";
+import { BookData } from "@/utils/interface";
 
-export const bookState = atom({
+export const bookState = atom<BookData[]>({
   key: "bookState",
   default: [],
 });

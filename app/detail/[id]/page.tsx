@@ -7,13 +7,15 @@ import { commentState } from "@/store/atoms/Comments";
 import { usePathname } from "next/navigation";
 import { formatAmountWithCommas } from "@/utils/amountComma";
 import { useRecoilState } from "recoil";
+import { BookListData, BookData, Comments } from "@/utils/interface";
+
 
 const Page = () => {
     const router = useRouter();
     const pathname = usePathname();
     const parts = pathname.split("/");
     const index = Number(parts[parts.length - 1]);
-    const [books] = useRecoilState(bookState);
+    const [books] = useRecoilState<BookData[]>(bookState);
     const [commentData] = useRecoilState(commentState);
     const book = books[index];
     useEffect(() => {
@@ -69,7 +71,7 @@ const Page = () => {
                                 <div className="py-4 border-t-2 border-slate-100">
                                     {commentData.map((item, index) => (
                                         <Comments key={index} comments={item}>
-                                            {item.replies.length &&
+                                            {item.replies?.length &&
                                                 item.replies.map((subitem, subindex) => (
                                                     <Comments comments={subitem} key={subindex}></Comments>
                                                 ))
@@ -113,7 +115,7 @@ const Page = () => {
     );
 };
 
-const Comments = ({ comments, children }) => {
+const Comments = ({ comments, children }: { comments: Comments, children?: React.ReactNode }) => {
     return (
         <div>
             <div className="flex gap-3">

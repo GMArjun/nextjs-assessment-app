@@ -7,13 +7,14 @@ import { formatAmountWithCommas } from '@/utils/amountComma';
 import CardLoader from "@/components/cardLoader";
 import { useRecoilState } from 'recoil';
 import { bookState, pageState, hasMoreState } from "@/store/atoms/Books";
+import { BookListData, BookData } from "@/utils/interface";
 
-const BooksList = ({ booklist }) => {
-    const [books, setBooks] = useRecoilState(bookState);
+const BooksList = ({ booklist }: { booklist: BookListData }) => {
+    const [books, setBooks] = useRecoilState<BookData[]>(bookState);
     const [page, setPage] = useRecoilState(pageState);
     const [hasMore, setHasMore] = useRecoilState(hasMoreState);
 
-    const fetchData = async (pageNumber) => {
+    const fetchData = async (pageNumber: number) => {
         try {
             const response = await axios.get(`http://15.165.74.54:3000/?page=${pageNumber}`);
             const result = response.data;

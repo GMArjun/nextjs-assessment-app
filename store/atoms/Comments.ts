@@ -1,6 +1,7 @@
 import { atom } from "recoil";
+import { Comments } from "@/utils/interface";
 
-export const commentState = atom({
+export const commentState = atom<Comments[]>({
   key: "commentState",
   default: [
     {
