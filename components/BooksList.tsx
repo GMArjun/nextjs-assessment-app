@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import InfiniteScroll from 'react-infinite-scroll-component';
+
 import axios from 'axios';
 import { formatAmountWithCommas } from '@/utils/amountComma';
 import CardLoader from '@/components/cardLoader';
