@@ -7,20 +7,29 @@ import { formatAmountWithCommas } from '@/utils/amountComma';
 import CardLoader from '@/components/cardLoader';
 import { useRecoilState } from 'recoil';
 import { bookState, pageState, hasMoreState } from '@/store/atoms/Books';
-import { BookData } from '@/utils/interface';
+import { BookData, BookListData } from '@/utils/interface';
 import { useQuery } from '@tanstack/react-query';
 
-const BooksList = () => {
+const BooksList = ({ listData }: { listData: BookListData }) => {
   const [books, setBooks] = useRecoilState<BookData[]>(bookState);
   const [page, setPage] = useRecoilState(pageState);
   const [hasMore, setHasMore] = useRecoilState(hasMoreState);
 
+  useEffect(() => {
+    if (listData) {
+      const { data, hasNext } = listData;
+      setBooks(data);
+      setHasMore(hasNext);
+    }
+  }, [listData, setBooks, setHasMore]);
+
   const { data } = useQuery({
     queryKey: ['booksList', page],
     queryFn: async () => {
-      const response = await axios.get(`http://15.165.74.54:3000/?page=${page}`);
+      const response = await axios.get(`http://43.200.197.161:3000/?page=${page}`);
       return response.data;
     },
+    enabled: page > 1,
     refetchOnWindowFocus: false,
     getNextPageParam: (lastPage) => lastPage.hasNext && lastPage.nextPage,
   });

@@ -1,7 +1,14 @@
 import React from 'react';
 import BooksList from '@/components/BooksList';
+import axios from 'axios';
+
+async function getBooksData() {
+  const res = await axios.get('http://43.200.197.161:3000/?page=1');
+  return res.status == 200 ? res.data : {};
+}
 
 const Page = async () => {
+  const data = await getBooksData();
   return (
     <div>
       <header className="sticky top-0 z-10 py-2 text-center bg-white">
@@ -15,7 +22,7 @@ const Page = async () => {
         </nav>
       </header>
       <main>
-        <BooksList />
+        <BooksList listData={data} />
       </main>
     </div>
   );
