@@ -3,7 +3,7 @@ import BooksList from '@/components/BooksList';
 import axios from 'axios';
 
 async function getBooksData() {
-  const res = await axios.get('http://43.200.197.161:3000/?page=1');
+  const res = await axios.get('https://frontassignment.hyperhire.in/?page=1');
   return res.status == 200 ? res.data : {};
 }
 

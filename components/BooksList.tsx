@@ -26,7 +26,7 @@ const BooksList = ({ listData }: { listData: BookListData }) => {
   const { data } = useQuery({
     queryKey: ['booksList', page],
     queryFn: async () => {
-      const response = await axios.get(`http://43.200.197.161:3000/?page=${page}`);
+      const response = await axios.get(`https://frontassignment.hyperhire.in/?page=${page}`);
       return response.data;
     },
     enabled: page > 1,
