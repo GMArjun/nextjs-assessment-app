@@ -65,11 +65,12 @@ const BooksList = ({ listData }: { listData: BookListData }) => {
                     <img src={item.coverImage} className="w-full h-full object-cover" alt="" />
                   </div>
                   <div className="py-2 px-3">
-                    <p className="font-medium truncate">{item.title}</p>
-                    <p className="flex justify-between pt-2 gap-3">
-                      <span className="text-[#FF003E] font-bold">{item.discountRate}%</span>
-                      <span className="font-bold">
-                        {formatAmountWithCommas(item.price)} <span className="font-medium">원</span>
+                    <p className="font-medium truncate text-sm text-[#1D232B]">{item.title}</p>
+                    <p className="flex items-center justify-between pt-2 gap-3">
+                      <span className="text-[#FF003E] font-bold text-sm">{item.discountRate}%</span>
+                      <span className="font-bold text-[#080A0C]">
+                        {formatAmountWithCommas(item.price)}{' '}
+                        <span className="font-medium text-sm text-[#1D232B]">원</span>
                       </span>
                     </p>
                   </div>

@@ -2,12 +2,14 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import CommentsBlock from '@/app/detail/components/comments';
+import CommentInput from '@/app/detail/components/commentInput';
 import { bookState } from '@/store/atoms/Books';
 import { commentState } from '@/store/atoms/Comments';
 import { usePathname } from 'next/navigation';
 import { formatAmountWithCommas } from '@/utils/amountComma';
 import { useRecoilState } from 'recoil';
-import { BookListData, BookData, Comments } from '@/utils/interface';
+import { BookData } from '@/utils/interface';
 
 const Page = () => {
   const router = useRouter();
@@ -20,6 +22,7 @@ const Page = () => {
   useEffect(() => {
     if (!book) {
       router.push('/');
+      return;
     }
   }, [book, router]);
   return (
@@ -55,83 +58,26 @@ const Page = () => {
                     {formatAmountWithCommas(book.price)} <span className="font-medium">원</span>
                   </span>
                 </p>
+              </div>
 
-                <div className="py-4 border-t-2 border-slate-100">
+              <div className="py-4 border-t-2 border-slate-100">
+                <div className="px-3">
                   {commentData.map((item, index) => (
-                    <Comments key={index} comments={item}>
+                    <CommentsBlock key={index} comments={item}>
                       {item.replies?.length &&
                         item.replies.map((subitem, subindex) => (
-                          <Comments comments={subitem} key={subindex}></Comments>
+                          <CommentsBlock comments={subitem} key={subindex}></CommentsBlock>
                         ))}
-                    </Comments>
+                    </CommentsBlock>
                   ))}
                 </div>
               </div>
 
-              <div className="p-3 mt-auto sticky bottom-0 bg-white border-t border-b border-slate-100">
-                <form className="flex items-center w-full gap-2">
-                  <div className="overflow-hidden relative shrink-0">
-                    <img src="/icons/imagesmode.png" className="h-6 w-6" alt="profile-icon" />
-                    <input
-                      type="file"
-                      name="myfile"
-                      className="h-full w-full absolute left-0 top-0 opacity-0"
-                      accept="image/*"
-                    />
-                  </div>
-                  <input
-                    v-model="content"
-                    type="text"
-                    className="grow outline-none  w-full shadow-none px-2 py-1"
-                    placeholder="댓글을 남겨주세요."
-                  />
-                  <button className="pl-3 py-1 rounded-full shrink-0 text-gray-400">등록</button>
-                </form>
-              </div>
+              <CommentInput />
             </section>
           </main>
         </>
       )}
-    </div>
-  );
-};
-
-const Comments = ({ comments, children }: { comments: Comments; children?: React.ReactNode }) => {
-  return (
-    <div>
-      <div className="flex gap-3">
-        <img src={`/icons/${comments.userImg}.png`} className="h-9 w-9 object-cover rounded-full" alt="profile-icon" />
-        <div className="flex gap-3 w-full items-center">
-          <div className="w-full">
-            <p className="flex flex-wrap items-center gap-x-1">
-              <span className="font-bold">{comments.name}</span>
-              {comments.userVerified && (
-                <img src="/icons/tick.png" v-if="commentData.userVerified" className="h-4 w-4" alt="profile-icon" />
-              )}
-              <span className="text-xs shrink-0 font-medium text-gray-400">{comments.time}</span>
-            </p>
-          </div>
-          <button className="outline-none shrink-0 -me-1 ">
-            <img src="/icons/menu.png" className="h-8 w-8" alt="menu-icon" />
-          </button>
-        </div>
-      </div>
-      <div className="pl-12 flex flex-col gap-3">
-        <div>
-          <p className="text-xs">{comments.content}</p>
-          <div className="flex gap-3 py-2 text-xs">
-            <button className="flex items-center gap-1 outline-none outline-none">
-              <img src="/icons/like.png" className="h-6 w-6" alt="like-icon" />
-              <span className="text-gray-400">{comments.likes}</span>
-            </button>
-            <button className="flex items-center gap-1 outline-none">
-              <img src="/icons/comment.png" className="h-6 w-6" alt="comment-icon" />
-              <span className="text-gray-400">{(comments.replies && comments.replies.length) || 0}</span>
-            </button>
-          </div>
-        </div>
-        {children}
-      </div>
     </div>
   );
 };

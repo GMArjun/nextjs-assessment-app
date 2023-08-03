@@ -1,5 +1,5 @@
 import React from 'react';
-import BooksList from '@/components/BooksList';
+import BooksList from '@/components/booksList';
 import axios from 'axios';
 
 async function getBooksData() {
